@@ -7,14 +7,14 @@ Installation
 
 ```bash
 
-php composer.phar require --prefer-dist suver/yii2-behavior-upload
+php composer.phar require --prefer-dist SamoylenkoSU/yii2-behavior-upload
 
 ```
 
 Install migrations
 
 ```bash
-yii migrate --migrationPath=@vendor/suver/yii2-behavior-upload/migrations
+yii migrate --migrationPath=@vendor/SamoylenkoSU/yii2-behavior-upload/migrations
 ```
 
 How USE

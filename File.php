@@ -177,8 +177,8 @@ class File implements FileInterface
     public function getDomainPath() {
         $file = $this->getPath();
         $fileFullPath = Yii::getAlias('@storage/' . $file);
-        if(file_exists($fileFullPath)) {
-            return Yii::$app->getModule('uploads')->storageDomain . '/' . $file;
+        if(file_exists($fileFullPath) && !empty(Yii::$app->params['storageDomain'])) {
+            return Yii::$app->params['storageDomain'] . '/' . $file;
         }
         return $this->defaultFilePath;
     }

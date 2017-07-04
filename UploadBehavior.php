@@ -365,7 +365,8 @@ class UploadBehavior extends Behavior
     protected function save($file, $originalName)
     {
         $mime = FileHelper::getMimeType($file);
-        $extension = end(FileHelper::getExtensionsByMimeType($mime));
+        $extensions = FileHelper::getExtensionsByMimeType($mime);
+        $extension = end($extensions);
 
         $type = false;
         if ($this->type) {

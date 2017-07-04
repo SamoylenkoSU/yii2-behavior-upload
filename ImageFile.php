@@ -40,7 +40,7 @@ class ImageFile extends File implements FileInterface
 
     public function __construct($model, $options, $defaultParams) {
         $this->model = $model;
-        $this->options = $options;
+        $this->options = is_array($options) ? $options : [];
         $this->defaultParams = $defaultParams;
     }
 
@@ -118,8 +118,8 @@ class ImageFile extends File implements FileInterface
     public function getDomainPath() {
         $image = $this->thumbnailProcessor($this->size);
         $imageFullPath = Yii::getAlias('@storage/' . $image);
-        if(file_exists($imageFullPath)) {
-            return Yii::$app->getModule('uploads')->storageDomain . '/' . $image;
+        if(file_exists($imageFullPath) && !empty(Yii::$app->params['storageDomain'])) {
+            return Yii::$app->params['storageDomain'] . '/' . $image;
         }
         return $this->defaultFilePath;
     }
