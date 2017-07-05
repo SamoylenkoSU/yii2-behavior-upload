@@ -32,15 +32,19 @@ class File implements FileInterface
     protected $defaultParams;
     protected $defaultFilePath = '';
 
-    public function __construct($model, $options, $defaultParams) {
+    public function __construct($model, $options = [], $defaultParams = []) {
         $this->model = $model;
-        $this->options = $options;
+        $this->options = is_array($options) ? $options : [];
         $this->defaultParams = $defaultParams;
     }
 
 
     public function __toString() {
-        return $this->getDomainPath();
+        try {
+            return (string) $this->getDomainPath();
+        } catch (Exception $exception) {
+            return '';
+        }
     }
 
     /**
@@ -186,7 +190,7 @@ class File implements FileInterface
     /**
      * Удаляет файл
      */
-    protected function fileDelete() {
+    public function fileDelete() {
         $directory = $this->getDirectory();
         $fileFullPath = Yii::getAlias('@storage/' . $directory);
         if(file_exists($fileFullPath)) {

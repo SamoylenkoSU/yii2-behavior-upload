@@ -5,6 +5,7 @@ namespace suver\behavior\upload\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use suver\behavior\upload\File;
 
 use suver\behavior\upload\models\UploadsInterface;
 
@@ -111,9 +112,9 @@ class Uploads extends \yii\db\ActiveRecord implements UploadsInterface
 
     public function beforeDelete()
     {
+        $file = new File($this);
+        $file->fileDelete();
         return parent::beforeDelete();
-
-        unlink();
     }
 
 }

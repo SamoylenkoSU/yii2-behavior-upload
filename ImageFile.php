@@ -38,22 +38,6 @@ class ImageFile extends File implements FileInterface
     protected $options;
     protected $defaultParams;
 
-    public function __construct($model, $options, $defaultParams) {
-        $this->model = $model;
-        $this->options = is_array($options) ? $options : [];
-        $this->defaultParams = $defaultParams;
-    }
-
-
-    public function __toString() {
-        try {
-            return (string) $this->getDomainPath();
-        } catch (Exception $exception) {
-            return '';
-        }
-    }
-
-
     /**
      * Препроцессор
      */
@@ -72,16 +56,6 @@ class ImageFile extends File implements FileInterface
      */
     public function thumbnail($size=false) {
         $this->size = $size;
-        return $this;
-    }
-
-    /**
-     * Установит файл замену
-     * @param $filePath
-     * @return $this
-     */
-    public function byDefault($file=false) {
-        $this->defaultFilePath = $file;
         return $this;
     }
 
@@ -179,9 +153,6 @@ class ImageFile extends File implements FileInterface
                 $thumbnail_height = $math[2];
             }
             else {
-                $thumbnail_width = false;
-                $thumbnail_height = false;
-                $_size = false;
                 throw new Exception("Incorrect image size");
             }
         }
