@@ -271,7 +271,13 @@ class UploadBehavior extends Behavior
 
         if ($this->_pathFiles && isset($this->_pathFiles[$this->attribute]) && is_array($this->_pathFiles[$this->attribute])) {
             foreach ($this->_pathFiles[$this->attribute] as $file) {
-                $savedFile = $this->linkHttpFile($this->attribute, $file['file'], $file['originalName']);
+                if (!$this->owner->getIsNewRecord() && $this->multiUpload == false) {
+                    $previousFiles = $this->linkedFiles($this->attribute);
+                    foreach ($previousFiles as $f) {
+                        $f->delete();
+                    }
+                }
+                $savedFile = $this->save($file['file'], $file['originalName']);
                 $this->afterUpload($savedFile);
             }
         }
