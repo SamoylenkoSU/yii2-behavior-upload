@@ -509,14 +509,16 @@ class UploadBehavior extends Behavior
      * @param bool $size
      * @return array|Uploads|null
      */
-    public function linkedFile($attribute) {
+    public function linkedFile($attribute, $orderBy = null) {
         $model = Uploads::find()
             ->andWhere(['attribute'=>$attribute])
             ->andWhere(['model'=>$this->owner->className()])
-            ->andWhere(['parent_id'=>$this->owner->getPrimaryKey()])
-            ->one();
+            ->andWhere(['parent_id'=>$this->owner->getPrimaryKey()]);
 
-        return $this->_linkedFile($model);
+        if($orderBy)
+            $model->orderBy($orderBy);
+
+        return $this->_linkedFile($model->one());
     }
 
     /**
@@ -525,14 +527,16 @@ class UploadBehavior extends Behavior
      * @param bool $size
      * @return array|Uploads|null
      */
-    public function linkedFiles($attribute) {
+    public function linkedFiles($attribute, $orderBy = null) {
         $models = Uploads::find()
             ->andWhere(['attribute'=>$attribute])
             ->andWhere(['model'=>$this->owner->className()])
-            ->andWhere(['parent_id'=>$this->owner->getPrimaryKey()])
-            ->all();
+            ->andWhere(['parent_id'=>$this->owner->getPrimaryKey()]);
 
-        if ($models) {
+        if($orderBy)
+            $models->orderBy($orderBy);
+
+        if ($models->all()) {
             $files = [];
             foreach ($models as $model) {
                 $files[] = $this->_linkedFile($model);
