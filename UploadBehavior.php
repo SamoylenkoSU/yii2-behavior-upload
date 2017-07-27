@@ -528,15 +528,15 @@ class UploadBehavior extends Behavior
      * @return array|Uploads|null
      */
     public function linkedFiles($attribute, $orderBy = null) {
-        $models = Uploads::find()
+        $query = Uploads::find()
             ->andWhere(['attribute'=>$attribute])
             ->andWhere(['model'=>$this->owner->className()])
             ->andWhere(['parent_id'=>$this->owner->getPrimaryKey()]);
 
         if($orderBy)
-            $models->orderBy($orderBy);
+            $query->orderBy($orderBy);
 
-        if ($models->all()) {
+        if ($models = $query->all()) {
             $files = [];
             foreach ($models as $model) {
                 $files[] = $this->_linkedFile($model);
